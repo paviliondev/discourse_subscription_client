@@ -1,0 +1,9 @@
+/.bundle/
+/doc/
+/log/*.log
+/pkg/
+/tmp/
+/spec/support/discourse/log/*.log
+/spec/support/discourse/storage/
+/spec/support/discourse/tmp/
+.byebug_history

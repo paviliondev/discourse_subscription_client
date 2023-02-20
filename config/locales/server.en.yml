@@ -1,0 +1,40 @@
+en:
+  subscription_client:
+    custom_title: "Subscription"
+
+    notices:
+      connection_error: "Failed to connect to %{url}"
+      compatibility_issue:
+        title: The %{resource} is incompatibile with the latest version of Discourse.
+        message: Please check the %{resource} status before updating Discourse.
+      resource:
+        connection_error:
+          title: Unable to connect to the plugin status server
+          message: Please check your plugins' compatibility with the latest version of Discourse before updating.
+      supplier:
+        connection_error:
+          title: Unable to connect to %{supplier}
+          message: Any subscriptions you have with %{supplier} have been deactivated.
+
+    subscriptions:
+      error:
+        supplier_connection: Failed to connect to %{supplier} (%{supplier_url})
+        invalid_response: Invalid response from %{supplier} (%{supplier_url})
+      info:
+        no_suppliers: "Update was not run as there are no authorized suppliers."
+        no_subscriptions: "There are no active subscriptions for %{supplier} (%{supplier_url})."
+        no_resource: "There is no %{resource} resource associated with %{supplier} (%{supplier_url})."
+        deactivated_subscription: "Deactivated subscription for %{resource_name} (%{resource_id})."
+        updated_subscription: "Updated active subscription for %{resource_name} (%{resource_id}). Product: (%{product_id}), Price: %{price}, Supplier: %{supplier}"
+        created_subscription: "Created active subscription for resource: %{resource-id}. Product: %{product_id}; Price: %{price}, Supplier: %{supplier}"
+        failed_to_create_subscription: "Failed to create subscription for %{resource_name} (%{resource-id}). product: %{product_id}; price: %{price}. From %{supplier} (%{supplier_url})"
+
+  site_settings:
+    subscription_client_enabled: "Enable the subscription client."
+    subscription_client_verbose_logs: "Enable verbose logs for the subscription client."
+    subscription_client_warning_notices_on_dashboard: "Show warning notices about subscriptions on the admin dashboard."
+    subscription_client_allow_moderator_subscription_management: "Allow moderators to manage subscriptions."
+    subscription_client_allow_moderator_supplier_management: "Allow moderators to manage subscription suppliers."
+    subscription_client_request_plugin_statuses: Request the status of plugins from discourse.pluginmanager.org.
+    errors:
+      allow_moderator_subscription_management_not_enabled: "Allow moderator subscription management must be enabled."

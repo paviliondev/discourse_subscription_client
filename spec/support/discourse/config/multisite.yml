@@ -1,0 +1,22 @@
+mlp:
+  adapter: postgresql
+  database: discourse_mlp
+  username: discourse_mlp
+  password: applejack
+  host: dbhost
+  pool: 5
+  timeout: 5000
+  host_names:
+    - discourse.equestria.com
+    - discourse.equestria.internal
+
+drwho:
+  adapter: postgresql
+  database: discourse_who
+  username: discourse_who
+  password: "Up the time stream without a TARDIS"
+  host: dbhost
+  pool: 5
+  timeout: 5000
+  host_names:
+    - discuss.tardis.gallifrey
