@@ -12,9 +12,9 @@ module DiscourseSubscriptionClient
     end
 
     config.after_initialize do
-      gem_root = File.expand_path('../../..', __FILE__)
+      gem_root = File.expand_path("../..", __dir__)
 
-      ActiveRecord::Tasks::DatabaseTasks.migrations_paths << gem_root + "/db/migrate"
+      ActiveRecord::Tasks::DatabaseTasks.migrations_paths << "#{gem_root}/db/migrate"
 
       %w[
         ./request
@@ -51,7 +51,7 @@ module DiscourseSubscriptionClient
       end
 
       SiteSetting.load_settings("#{gem_root}/config/settings.yml", plugin: PLUGIN_NAME)
-      byebug
+
       Guardian.prepend DiscourseSubscriptionClient::GuardianExtension
       CurrentUserSerializer.prepend DiscourseSubscriptionClient::CurrentUserSerializerExtension
 

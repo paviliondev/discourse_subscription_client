@@ -22,7 +22,6 @@ Gem::Specification.new do |spec|
   end
   spec.require_paths = ["lib"]
 
-  spec.add_development_dependency "rails", ">= 7.0.4.1"
   spec.add_development_dependency "active_model_serializers", "~> 0.8.3"
   spec.add_development_dependency "annotate"
   spec.add_development_dependency "byebug"
@@ -30,6 +29,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "fabrication"
   spec.add_development_dependency "message_bus"
   spec.add_development_dependency "mini_scheduler"
+  spec.add_development_dependency "rails", ">= 7.0.4.1"
   spec.add_development_dependency "rspec-activemodel-mocks"
   spec.add_development_dependency "rspec-rails"
   spec.add_development_dependency "rubocop"
