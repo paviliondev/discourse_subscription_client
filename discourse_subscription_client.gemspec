@@ -7,9 +7,9 @@ Gem::Specification.new do |spec|
   spec.version     = DiscourseSubscriptionClient::VERSION
   spec.authors     = ["Angus McLeod"]
   spec.email       = ["angus@mcleod.org.au"]
-  spec.summary     = "Summary of DiscourseSubscriptionClient."
-  spec.description = "Description of DiscourseSubscriptionClient."
-  spec.license     = "MIT"
+  spec.summary     = "Discourse plugin subscription client."
+  spec.description = "Adds a backend subscription client to a Discourse plugin."
+  spec.license     = "GPL-2.0-only"
   spec.required_ruby_version = ">= 2.6.0"
 
   spec.homepage = "https://github.com/paviliondev/discourse_subscription_client"
