@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module ::DiscourseSubscriptionClient
-  module Subscriptions
+  class Subscriptions
     class Result
       REQUIRED_KEYS ||= %i[
         resource_id

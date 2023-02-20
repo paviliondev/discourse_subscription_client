@@ -2,7 +2,6 @@ PATH
   remote: .
   specs:
     discourse_subscription_client (0.1.0)
-      rails (>= 7.0.4.1)
 
 GEM
   remote: https://rubygems.org/
@@ -238,6 +237,7 @@ DEPENDENCIES
   message_bus
   mini_scheduler
   pg
+  rails (>= 7.0.4.1)
   rspec-activemodel-mocks
   rspec-rails
   rubocop

@@ -22,7 +22,7 @@ Gem::Specification.new do |spec|
   end
   spec.require_paths = ["lib"]
 
-  spec.add_dependency "rails", ">= 7.0.4.1"
+  spec.add_development_dependency "rails", ">= 7.0.4.1"
   spec.add_development_dependency "active_model_serializers", "~> 0.8.3"
   spec.add_development_dependency "annotate"
   spec.add_development_dependency "byebug"
