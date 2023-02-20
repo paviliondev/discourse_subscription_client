@@ -12,14 +12,46 @@ module DiscourseSubscriptionClient
     end
 
     config.after_initialize do
+      gem_root = File.expand_path('../../..', __FILE__)
+
+      ActiveRecord::Tasks::DatabaseTasks.migrations_paths << gem_root + "/db/migrate"
+
+      %w[
+        ./request
+        ./authorization
+        ./resources
+        ./notices
+        ./subscriptions
+        ./subscriptions/result
+        ../../app/models/subscription_client_notice
+        ../../app/models/subscription_client_resource
+        ../../app/models/subscription_client_subscription
+        ../../app/models/subscription_client_supplier
+        ../../app/controllers/discourse_subscription_client/admin_controller
+        ../../app/controllers/discourse_subscription_client/subscriptions_controller
+        ../../app/controllers/discourse_subscription_client/suppliers_controller
+        ../../app/controllers/discourse_subscription_client/notices_controller
+        ../../app/serializers/discourse_subscription_client/supplier_serializer
+        ../../app/serializers/discourse_subscription_client/resource_serializer
+        ../../app/serializers/discourse_subscription_client/notice_serializer
+        ../../app/serializers/discourse_subscription_client/subscription_serializer
+        ../../app/jobs/regular/discourse_subscription_client/find_resources
+        ../../app/jobs/scheduled/discourse_subscription_client/update_subscriptions
+        ../../app/jobs/scheduled/discourse_subscription_client/update_notices
+        ../../extensions/discourse_subscription_client/current_user
+        ../../extensions/discourse_subscription_client/guardian
+      ].each do |path|
+        require_relative path
+      end
+
       Jobs.enqueue(:subscription_client_find_resources) if DiscourseSubscriptionClient.database_exists? && !Rails.env.test?
 
       Rails.application.routes.append do
         mount DiscourseSubscriptionClient::Engine, at: "/admin/plugins/subscription-client"
       end
 
-      SiteSetting.load_settings("config/settings", plugin: PLUGIN_NAME)
-
+      SiteSetting.load_settings("#{gem_root}/config/settings.yml", plugin: PLUGIN_NAME)
+      byebug
       Guardian.prepend DiscourseSubscriptionClient::GuardianExtension
       CurrentUserSerializer.prepend DiscourseSubscriptionClient::CurrentUserSerializerExtension
 

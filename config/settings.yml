@@ -11,7 +11,6 @@ plugins:
   subscription_client_allow_moderator_supplier_management:
     default: false
     client: true
-    validator: "AllowModeratorSupplierManagementValidator"
   subscription_client_request_plugin_statuses:
     default: false
     hidden: true

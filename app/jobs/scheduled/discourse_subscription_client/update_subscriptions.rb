@@ -5,7 +5,7 @@ module Jobs
     every 1.day
 
     def execute(_args = {})
-      DiscourseSubscriptionClient::Subscriptions.update
+      ::DiscourseSubscriptionClient::Subscriptions.update
     end
   end
 end

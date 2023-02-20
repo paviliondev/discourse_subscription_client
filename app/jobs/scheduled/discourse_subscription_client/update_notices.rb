@@ -5,7 +5,7 @@ module Jobs
     every 5.minutes
 
     def execute(_args = {})
-      DiscourseSubscriptionClient::Notices.update
+      ::DiscourseSubscriptionClient::Notices.update
     end
   end
 end
