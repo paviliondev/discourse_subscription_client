@@ -18,7 +18,7 @@ require "message_bus"
 module Discourse
   class Application < Rails::Application
     config.api_only = true
-    config.load_defaults Rails::VERSION::STRING.to_f
+    config.load_defaults "5.0"
     config.action_controller.include_all_helpers = false
     config.generators.system_tests = nil
     config.autoloader = :classic
