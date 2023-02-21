@@ -5,7 +5,7 @@ class SubscriptionClientSupplier < ActiveRecord::Base
   has_many :subscriptions, through: :resources
   has_many :notices, class_name: "SubscriptionClientNotice", as: :notice_subject, dependent: :destroy
 
-  belongs_to :user
+  belongs_to :user, optional: true
 
   scope :authorized, -> { where("api_key IS NOT NULL") }
 

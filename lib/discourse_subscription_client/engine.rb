@@ -14,7 +14,7 @@ module DiscourseSubscriptionClient
     config.after_initialize do
       gem_root = File.expand_path("../..", __dir__)
 
-      ActiveRecord::Tasks::DatabaseTasks.migrations_paths << "#{gem_root}/db/migrate"
+      ActiveRecord::Tasks::DatabaseTasks.migrations_paths << "#{gem_root}/db/migrate" unless Rails.env.test?
 
       %w[
         ./request
@@ -35,16 +35,16 @@ module DiscourseSubscriptionClient
         ../../app/serializers/discourse_subscription_client/resource_serializer
         ../../app/serializers/discourse_subscription_client/notice_serializer
         ../../app/serializers/discourse_subscription_client/subscription_serializer
-        ../../app/jobs/regular/discourse_subscription_client/find_resources
-        ../../app/jobs/scheduled/discourse_subscription_client/update_subscriptions
-        ../../app/jobs/scheduled/discourse_subscription_client/update_notices
+        ../../app/jobs/regular/discourse_subscription_client_find_resources
+        ../../app/jobs/scheduled/discourse_subscription_client_update_subscriptions
+        ../../app/jobs/scheduled/discourse_subscription_client_update_notices
         ../../extensions/discourse_subscription_client/current_user
         ../../extensions/discourse_subscription_client/guardian
       ].each do |path|
         require_relative path
       end
 
-      Jobs.enqueue(:subscription_client_find_resources) if DiscourseSubscriptionClient.database_exists? && !Rails.env.test?
+      Jobs.enqueue(:discourse_subscription_client_find_resources) if DiscourseSubscriptionClient.database_exists? && !Rails.env.test?
 
       Rails.application.routes.append do
         mount DiscourseSubscriptionClient::Engine, at: "/admin/plugins/subscription-client"

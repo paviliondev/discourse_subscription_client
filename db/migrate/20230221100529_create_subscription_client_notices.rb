@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateSubscriptionClientNotices < ActiveRecord::Migration[6.1]
+class CreateSubscriptionClientNotices < ActiveRecord::Migration[7.0]
   def change
     create_table :subscription_client_notices do |t|
       t.string :title, null: false
@@ -17,6 +17,6 @@ class CreateSubscriptionClientNotices < ActiveRecord::Migration[6.1]
     end
 
     add_index :subscription_client_notices, %i[notice_type notice_subject_type notice_subject_id changed_at],
-              unique: true, name: "sc_unique_notices"
+              unique: true, name: "sc_unique_notices", if_not_exists: true
   end
 end

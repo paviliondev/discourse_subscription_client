@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateSubscriptionClientSuppliers < ActiveRecord::Migration[6.1]
+class CreateSubscriptionClientSuppliers < ActiveRecord::Migration[7.0]
   def change
     create_table :subscription_client_suppliers do |t|
       t.string :name
@@ -12,6 +12,6 @@ class CreateSubscriptionClientSuppliers < ActiveRecord::Migration[6.1]
       t.timestamps
     end
 
-    add_index :subscription_client_suppliers, [:url], unique: true
+    add_index :subscription_client_suppliers, [:url], unique: true, if_not_exists: true
   end
 end

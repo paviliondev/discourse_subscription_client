@@ -18,7 +18,7 @@ Gem::Specification.new do |spec|
   spec.metadata["changelog_uri"] = spec.homepage
 
   spec.files = Dir.chdir(File.expand_path(__dir__)) do
-    Dir["{app,config,db,lib,extensions}/**/*", "LICENSE.txt", "COPYRIGHT.txt", "Rakefile", "README.md"]
+    Dir["{app,config,db,lib,extensions}/**/*", "LICENSE.txt", "COPYRIGHT.txt", "README.md"]
   end
   spec.require_paths = ["lib"]
 
@@ -29,10 +29,11 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "fabrication"
   spec.add_development_dependency "message_bus"
   spec.add_development_dependency "mini_scheduler"
+  spec.add_development_dependency "pg"
   spec.add_development_dependency "rails", ">= 7.0.4.1"
   spec.add_development_dependency "rspec-activemodel-mocks"
   spec.add_development_dependency "rspec-rails"
   spec.add_development_dependency "rubocop"
+  spec.add_development_dependency "sprockets-rails"
   spec.add_development_dependency "webmock"
-  spec.add_development_dependency "pg"
 end

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateSubscriptionClientResources < ActiveRecord::Migration[6.1]
+class CreateSubscriptionClientResources < ActiveRecord::Migration[7.0]
   def change
     create_table :subscription_client_resources do |t|
       t.references :supplier, foreign_key: { to_table: :subscription_client_suppliers }
@@ -9,6 +9,6 @@ class CreateSubscriptionClientResources < ActiveRecord::Migration[6.1]
       t.timestamps
     end
 
-    add_index :subscription_client_resources, %i[supplier_id name], unique: true
+    add_index :subscription_client_resources, %i[supplier_id name], unique: true, if_not_exists: true
   end
 end

@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 20_230_220_130_259) do
+ActiveRecord::Schema[7.0].define(version: 20_230_221_100_540) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -22,16 +22,15 @@ ActiveRecord::Schema[7.0].define(version: 20_230_220_130_259) do
     t.integer "notice_type", null: false
     t.string "notice_subject_type"
     t.bigint "notice_subject_id"
-    t.datetime "changed_at", precision: nil
-    t.datetime "retrieved_at", precision: nil
-    t.datetime "dismissed_at", precision: nil
-    t.datetime "expired_at", precision: nil
-    t.datetime "hidden_at", precision: nil
+    t.datetime "changed_at"
+    t.datetime "retrieved_at"
+    t.datetime "dismissed_at"
+    t.datetime "expired_at"
+    t.datetime "hidden_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index %w[notice_subject_type notice_subject_id], name: "index_subscription_client_notices_on_notice_subject"
-    t.index %w[notice_type notice_subject_type notice_subject_id changed_at], name: "sc_unique_notices",
-                                                                              unique: true
+    t.index %w[notice_type notice_subject_type notice_subject_id changed_at], name: "sc_unique_notices", unique: true
   end
 
   create_table "subscription_client_requests", force: :cascade do |t|
@@ -72,7 +71,7 @@ ActiveRecord::Schema[7.0].define(version: 20_230_220_130_259) do
     t.string "url", null: false
     t.string "api_key"
     t.bigint "user_id"
-    t.datetime "authorized_at", precision: nil
+    t.datetime "authorized_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["url"], name: "index_subscription_client_suppliers_on_url", unique: true
@@ -81,4 +80,8 @@ ActiveRecord::Schema[7.0].define(version: 20_230_220_130_259) do
 
   add_foreign_key "subscription_client_resources", "subscription_client_suppliers", column: "supplier_id"
   add_foreign_key "subscription_client_subscriptions", "subscription_client_resources", column: "resource_id"
+
+  create_table "users", force: :cascade do |t|
+    t.string "name"
+  end
 end

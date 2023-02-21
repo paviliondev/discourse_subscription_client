@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Jobs
-  class SubscriptionClientUpdateSubscriptions < ::Jobs::Scheduled
+  class DiscourseSubscriptionClientUpdateSubscriptions < ::Jobs::Scheduled
     every 1.day
 
     def execute(_args = {})

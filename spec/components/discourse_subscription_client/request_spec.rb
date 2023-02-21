@@ -4,6 +4,7 @@ describe DiscourseSubscriptionClient::Request do
   let(:user) { create_discourse_user }
   let!(:supplier) { Fabricate(:subscription_client_supplier, api_key: Fabricate(:subscription_client_user_api_key)) }
   let!(:resource) { Fabricate(:subscription_client_resource, name: "discourse-custom-wizard", supplier: supplier) }
+  let!(:resource) { Fabricate(:subscription_client_resource, name: "discourse-custom-wizard", supplier: supplier) }
   let!(:subscription) { Fabricate(:subscription_client_subscription, resource: resource, subscribed: true) }
   let(:subscription_message) do
     {

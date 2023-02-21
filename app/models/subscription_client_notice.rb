@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 
 class SubscriptionClientNotice < ActiveRecord::Base
-  belongs_to :notice_subject, polymorphic: true
-  delegate :name, to: :subject
+  belongs_to :notice_subject, polymorphic: true, optional: true
 
   scope :warnings, -> { where(notice_type: SubscriptionClientNotice.types[:warning]) }
   scope :hidden, -> { where("hidden_at IS NOT NULL AND dismissed_at IS NULL AND expired_at IS NULL") }
