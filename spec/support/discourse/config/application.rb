@@ -18,12 +18,9 @@ require "message_bus"
 module Discourse
   class Application < Rails::Application
     config.api_only = true
-    config.load_defaults "5.0"
+    config.load_defaults Rails::VERSION::STRING.to_f
     config.action_controller.include_all_helpers = false
     config.generators.system_tests = nil
-    config.autoloader = :classic
-    config.autoload_paths << "#{config.root}/lib"
-    config.eager_load_paths << "#{config.root}/lib"
 
     config.after_initialize do
       require "discourse_subscription_client"
