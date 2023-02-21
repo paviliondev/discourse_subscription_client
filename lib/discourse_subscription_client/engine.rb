@@ -35,9 +35,9 @@ module DiscourseSubscriptionClient
         ../../app/serializers/discourse_subscription_client/resource_serializer
         ../../app/serializers/discourse_subscription_client/notice_serializer
         ../../app/serializers/discourse_subscription_client/subscription_serializer
-        ../../app/jobs/regular/discourse_subscription_client_find_resources
-        ../../app/jobs/scheduled/discourse_subscription_client_update_subscriptions
-        ../../app/jobs/scheduled/discourse_subscription_client_update_notices
+        ../../app/jobs/discourse_subscription_client_find_resources
+        ../../app/jobs/discourse_subscription_client_update_subscriptions
+        ../../app/jobs/discourse_subscription_client_update_notices
         ../../extensions/discourse_subscription_client/current_user_serializer
         ../../extensions/discourse_subscription_client/site_serializer
         ../../extensions/discourse_subscription_client/guardian
