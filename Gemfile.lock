@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    discourse_subscription_client (0.1.0.pre3)
+    discourse_subscription_client (0.1.0.pre4)
 
 GEM
   remote: https://rubygems.org/
