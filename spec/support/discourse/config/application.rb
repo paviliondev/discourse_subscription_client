@@ -22,6 +22,8 @@ module Discourse
     config.action_controller.include_all_helpers = false
     config.generators.system_tests = nil
     config.autoloader = :classic
+    config.autoload_paths << "#{config.root}/lib"
+    config.eager_load_paths << "#{config.root}/lib"
 
     config.after_initialize do
       require "discourse_subscription_client"
