@@ -2,7 +2,7 @@
 
 class CreateSubscriptionClientSuppliers < ActiveRecord::Migration[7.0]
   def change
-    create_table :subscription_client_suppliers do |t|
+    create_table :subscription_client_suppliers, if_not_exists: true do |t|
       t.string :name
       t.string :url, null: false
       t.string :api_key

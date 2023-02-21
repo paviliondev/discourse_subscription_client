@@ -2,7 +2,7 @@
 
 class CreateSubscriptionClientRequests < ActiveRecord::Migration[7.0]
   def change
-    create_table :subscription_client_requests do |t|
+    create_table :subscription_client_requests, if_not_exists: true do |t|
       t.bigint :request_id
       t.string :request_type
       t.datetime :expired_at

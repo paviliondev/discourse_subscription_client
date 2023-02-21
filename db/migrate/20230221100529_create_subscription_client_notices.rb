@@ -2,7 +2,7 @@
 
 class CreateSubscriptionClientNotices < ActiveRecord::Migration[7.0]
   def change
-    create_table :subscription_client_notices do |t|
+    create_table :subscription_client_notices, if_not_exists: true do |t|
       t.string :title, null: false
       t.string :message
       t.integer :notice_type, null: false

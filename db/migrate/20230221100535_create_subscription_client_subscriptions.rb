@@ -2,7 +2,7 @@
 
 class CreateSubscriptionClientSubscriptions < ActiveRecord::Migration[7.0]
   def change
-    create_table :subscription_client_subscriptions do |t|
+    create_table :subscription_client_subscriptions, if_not_exists: true do |t|
       t.references :resource, foreign_key: { to_table: :subscription_client_resources }
       t.string :product_id, null: false
       t.string :product_name
