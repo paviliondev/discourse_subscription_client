@@ -21,6 +21,7 @@ module Discourse
     config.load_defaults Rails::VERSION::STRING.to_f
     config.action_controller.include_all_helpers = false
     config.generators.system_tests = nil
+    config.autoloader = :classic
 
     config.after_initialize do
       require "discourse_subscription_client"
