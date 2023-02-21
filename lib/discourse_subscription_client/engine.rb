@@ -45,7 +45,7 @@ module DiscourseSubscriptionClient
         require_relative path
       end
 
-      Jobs.enqueue(:discourse_subscription_client_find_resources) if DiscourseSubscriptionClient.database_exists? && !Rails.env.test?
+      Jobs.enqueue(:discourse_subscription_client_find_resources) if !Rails.env.test? && DiscourseSubscriptionClient.database_exists?
 
       Rails.application.routes.append do
         mount DiscourseSubscriptionClient::Engine, at: "/admin/plugins/subscription-client"
