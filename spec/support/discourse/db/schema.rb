@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -10,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_02_21_100540) do
+ActiveRecord::Schema[7.0].define(version: 20_230_221_100_540) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -27,8 +29,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_21_100540) do
     t.datetime "hidden_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["notice_subject_type", "notice_subject_id"], name: "index_subscription_client_notices_on_notice_subject"
-    t.index ["notice_type", "notice_subject_type", "notice_subject_id", "changed_at"], name: "sc_unique_notices", unique: true
+    t.index %w[notice_subject_type notice_subject_id], name: "index_subscription_client_notices_on_notice_subject"
+    t.index %w[notice_type notice_subject_type notice_subject_id changed_at], name: "sc_unique_notices", unique: true
   end
 
   create_table "subscription_client_requests", force: :cascade do |t|
@@ -47,7 +49,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_21_100540) do
     t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["supplier_id", "name"], name: "index_subscription_client_resources_on_supplier_id_and_name", unique: true
+    t.index %w[supplier_id name], name: "index_subscription_client_resources_on_supplier_id_and_name", unique: true
     t.index ["supplier_id"], name: "index_subscription_client_resources_on_supplier_id"
   end
 
@@ -60,7 +62,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_21_100540) do
     t.boolean "subscribed", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["resource_id", "product_id", "price_id"], name: "sc_unique_subscriptions", unique: true
+    t.index %w[resource_id product_id price_id], name: "sc_unique_subscriptions", unique: true
     t.index ["resource_id"], name: "index_subscription_client_subscriptions_on_resource_id"
   end
 
@@ -74,10 +76,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_21_100540) do
     t.datetime "updated_at", null: false
     t.index ["url"], name: "index_subscription_client_suppliers_on_url", unique: true
     t.index ["user_id"], name: "index_subscription_client_suppliers_on_user_id"
-  end
-
-  create_table "users", force: :cascade do |t|
-    t.string "name"
   end
 
   add_foreign_key "subscription_client_resources", "subscription_client_suppliers", column: "supplier_id"

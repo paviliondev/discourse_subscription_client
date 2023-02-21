@@ -38,7 +38,8 @@ module DiscourseSubscriptionClient
         ../../app/jobs/regular/discourse_subscription_client_find_resources
         ../../app/jobs/scheduled/discourse_subscription_client_update_subscriptions
         ../../app/jobs/scheduled/discourse_subscription_client_update_notices
-        ../../extensions/discourse_subscription_client/current_user
+        ../../extensions/discourse_subscription_client/current_user_serializer
+        ../../extensions/discourse_subscription_client/site_serializer
         ../../extensions/discourse_subscription_client/guardian
       ].each do |path|
         require_relative path
@@ -54,6 +55,7 @@ module DiscourseSubscriptionClient
 
       Guardian.prepend DiscourseSubscriptionClient::GuardianExtension
       CurrentUserSerializer.prepend DiscourseSubscriptionClient::CurrentUserSerializerExtension
+      SiteSerializer.prepend DiscourseSubscriptionClient::SiteSerializerExtension
 
       User.has_many(:subscription_client_suppliers)
 
