@@ -45,7 +45,7 @@ jobs:
     - name: Rspec
       env:
         RAILS_ENV: "test"
-        DATABASE_URL: "postgres://postgres@localhost:5432/discourse_subscription_client_test"
+        DATABASE_URL: "postgres://postgres:postgres@localhost:5432/discourse_subscription_client_test"
       run: |
         rake db:create db:schema:load
         bundle exec rspec .
