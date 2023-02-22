@@ -16,7 +16,7 @@ jobs:
       postgres:
         image: postgres:10.8
         env:
-          POSTGRES_USER: postgres
+          POSTGRES_USER: discourse_subscription_client_test
           POSTGRES_PASSWORD: ""
           POSTGRES_DB: discourse_subscription_client_test
         ports:
