@@ -24,6 +24,11 @@ jobs:
         ports:
           - 5432:5432
 
+      redis:
+        image: redis:alpine
+        ports: ["6379:6379"]
+        options: --entrypoint redis-server
+
     strategy:
       matrix:
         ruby:
@@ -44,8 +49,9 @@ jobs:
 
     - name: Rspec
       env:
-        RAILS_ENV: "test"
-        DATABASE_URL: "postgres://postgres:postgres@localhost:5432/discourse_subscription_client_test"
+        RAILS_ENV: test
+        DATABASE_URL: postgres://postgres:postgres@localhost:5432/discourse_subscription_client_test
+        REDIS_URL: redis://localhost:6379/0
       run: |
         rake db:create db:schema:load
         bundle exec rspec .
