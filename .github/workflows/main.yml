@@ -20,18 +20,13 @@ jobs:
           POSTGRES_PASSWORD: ""
           POSTGRES_DB: postgres
         ports:
-          - 5432:5432
-        options: >-
-          --mount type=tmpfs,destination=/var/lib/postgresql/data
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
+        - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
 
     env:
       RAILS_ENV: test
-      PGUSER: discourse_subscription_client
-      PGPASSWORD: discourse_subscription_client
+      PGUSER: postgres
+      PGPASSWORD: postgres
 
     strategy:
       matrix:
@@ -52,4 +47,6 @@ jobs:
       run: bundle exec rubocop .
 
     - name: Rspec
-      run: bundle exec rspec .
+      run: |
+        rake db:create db:schema:load
+        bundle exec rspec .
