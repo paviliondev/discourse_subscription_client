@@ -9,7 +9,7 @@ module DiscourseSubscriptionClientHelper
     {
       product_id: "prod_CBTNpi3fqWWkq0",
       price_id: "price_id",
-      price_name: "business"
+      price_name: "yearly"
     }
   end
 
@@ -27,9 +27,14 @@ module DiscourseSubscriptionClientHelper
     )
   end
 
-  def stub_server_request(server_url, supplier, status = 200)
-    stub_request(:get, "#{server_url}/subscription-server").to_return(status: status,
-                                                                      body: { supplier: supplier }.to_json)
+  def stub_server_request(server_url, supplier, products = [], status = 200)
+    stub_request(:get, "#{server_url}/subscription-server").to_return(
+      status: status,
+      body: {
+        supplier: supplier,
+        products: products
+      }.to_json
+    )
   end
 
   def stub_subscription_messages_request(supplier, status, messages)

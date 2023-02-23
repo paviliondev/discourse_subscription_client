@@ -155,6 +155,9 @@ GEM
       nokogiri (>= 1.6)
     rails-html-sanitizer (1.5.0)
       loofah (~> 2.19, >= 2.19.1)
+    rails_multisite (4.0.1)
+      activerecord (> 5.0, < 7.1)
+      railties (> 5.0, < 7.1)
     railties (7.0.4.2)
       actionpack (= 7.0.4.2)
       activesupport (= 7.0.4.2)
@@ -241,6 +244,7 @@ DEPENDENCIES
   mini_scheduler
   pg
   rails (>= 7.0.4.1)
+  rails_multisite
   rspec-activemodel-mocks
   rspec-rails
   rubocop

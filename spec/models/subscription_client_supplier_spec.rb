@@ -18,4 +18,10 @@ describe SubscriptionClientSupplier do
     expect(supplier.authorized_at).to eq(nil)
     expect(subscription.reload.subscribed).to eq(false)
   end
+
+  it "maps product slugs" do
+    supplier.products = [{ product_id: "prod_CBTNpi3fqWWkq0", product_slug: "business" }].as_json
+    supplier.save!
+    expect(supplier.reload.product_slugs).to eq({ "prod_CBTNpi3fqWWkq0" => "business" })
+  end
 end

@@ -2,5 +2,5 @@
 
 Fabricator(:subscription_client_resource) do
   supplier(fabricator: :subscription_client_supplier)
-  name { "custom-wizard-plugin" }
+  name { sequence(:name) { |i| "resource-#{i}" } }
 end

@@ -32,6 +32,15 @@ RSpec.configure do |config|
   config.filter_rails_from_backtrace!
   config.include DiscourseHelper
   config.include DiscourseSubscriptionClientHelper
+
+  def test_multisite_connection(name)
+    RailsMultisite::ConnectionManagement.with_connection(name) do
+      ActiveRecord::Base.transaction(joinable: false) do
+        yield
+        raise ActiveRecord::Rollback
+      end
+    end
+  end
 end
 
 class TrackTimeStub

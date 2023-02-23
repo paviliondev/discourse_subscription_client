@@ -51,8 +51,8 @@ module DiscourseSubscriptionClient
           request = DiscourseSubscriptionClient::Request.new(:supplier, supplier.id)
           data = request.perform("#{url}/subscription-server")
 
-          if data
-            supplier.update(name: data[:supplier])
+          if valid_supplier_data?(data)
+            supplier.update(name: data[:supplier], products: data[:products])
             @suppliers << supplier
           else
             supplier.destroy!
@@ -89,8 +89,21 @@ module DiscourseSubscriptionClient
 
         @resources << {
           name: metadata.name,
-          supplier_url: metadata.subscription_url
+          supplier_url: ENV["TEST_SUBSCRIPTION_URL"] || metadata.subscription_url
         }
+      end
+    end
+
+    def valid_supplier_data?(data)
+      return false unless %i[supplier products].all? { |key| data.key?(key) }
+      return false unless data[:supplier].is_a?(String)
+      return false unless data[:products].is_a?(Array)
+
+      data[:products].all? do |product|
+        product.is_a?(Hash) &&
+          %i[product_id product_slug].all? do |key|
+            product.key?(key) && product[key].is_a?(String)
+          end
       end
     end
   end

@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 20_230_221_100_540) do
+ActiveRecord::Schema[7.0].define(version: 20_230_223_135_957) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -74,6 +74,7 @@ ActiveRecord::Schema[7.0].define(version: 20_230_221_100_540) do
     t.datetime "authorized_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.json "products"
     t.index ["url"], name: "index_subscription_client_suppliers_on_url", unique: true
     t.index ["user_id"], name: "index_subscription_client_suppliers_on_user_id"
   end

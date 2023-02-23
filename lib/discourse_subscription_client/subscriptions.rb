@@ -13,7 +13,7 @@ module DiscourseSubscriptionClient
     def update
       return unless SiteSetting.subscription_client_enabled
 
-      @result = DiscourseSubscriptionClient::Subscriptions::Result.new
+      @result = DiscourseSubscriptionClient::Subscriptions::UpdateResult.new
 
       if @suppliers.blank?
         @result.no_suppliers

@@ -14,12 +14,14 @@ require "byebug"
 require "active_model_serializers"
 require "mini_scheduler"
 require "message_bus"
+require "rails_multisite"
 
 module Discourse
   class Application < Rails::Application
     config.api_only = true
     config.load_defaults Rails::VERSION::STRING.to_f
     config.action_controller.include_all_helpers = false
+    config.active_record.legacy_connection_handling = true
     config.generators.system_tests = nil
 
     config.after_initialize do
@@ -53,5 +55,6 @@ require_relative "../lib/guardian"
 require_relative "../lib/discourse_event"
 require_relative "../lib/plugin_store"
 require_relative "../lib/message_bus"
+require_relative "../lib/plugin"
 
 Bundler.require(*Rails.groups)

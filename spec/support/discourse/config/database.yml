@@ -6,7 +6,11 @@ default: &default
 development:
   <<: *default
   database: discourse_subscription_client_development
+  host_names:
+    - localhost
 
 test:
   <<: *default
   database: discourse_subscription_client_test
+  host_names:
+    - localhost

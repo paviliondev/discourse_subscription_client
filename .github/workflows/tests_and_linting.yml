@@ -54,4 +54,4 @@ jobs:
         REDIS_URL: redis://localhost:6379/0
       run: |
         rake db:create db:schema:load
-        bundle exec rspec .
+        bundle exec rspec . --pattern spec/**/*_spec.rb

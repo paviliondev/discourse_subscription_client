@@ -23,6 +23,12 @@ class SubscriptionClientSupplier < ActiveRecord::Base
     api_key.present?
   end
 
+  def product_slugs
+    @product_slugs ||= products.each_with_object({}) do |product, result|
+      result[product["product_id"]] = product["product_slug"]
+    end
+  end
+
   def deactivate_all_subscriptions!
     subscriptions.update_all(subscribed: false)
   end
