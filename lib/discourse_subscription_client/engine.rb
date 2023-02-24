@@ -9,6 +9,7 @@ module DiscourseSubscriptionClient
 
     config.before_initialize do
       config.i18n.load_path += Dir["#{config.root}/config/locales/**/*.yml"]
+      Rails.autoloaders.main.ignore(config.root) if defined?(Rails) == 'constant'
     end
 
     config.after_initialize do
