@@ -37,9 +37,9 @@ module DiscourseSubscriptionClient
         ../../app/serializers/discourse_subscription_client/resource_serializer
         ../../app/serializers/discourse_subscription_client/notice_serializer
         ../../app/serializers/discourse_subscription_client/subscription_serializer
-        ../../app/jobs/discourse_subscription_client_find_resources
-        ../../app/jobs/discourse_subscription_client_update_subscriptions
-        ../../app/jobs/discourse_subscription_client_update_notices
+        ../../app/jobs/discourse_subscription_client/find_resources
+        ../../app/jobs/discourse_subscription_client/update_subscriptions
+        ../../app/jobs/discourse_subscription_client/update_notices
         ../../extensions/discourse_subscription_client/current_user_serializer
         ../../extensions/discourse_subscription_client/site_serializer
         ../../extensions/discourse_subscription_client/guardian
@@ -47,7 +47,7 @@ module DiscourseSubscriptionClient
         require_relative path
       end
 
-      Jobs.enqueue(:discourse_subscription_client_find_resources) if !Rails.env.test? && DiscourseSubscriptionClient.database_exists?
+      Jobs.enqueue(DiscourseSubscriptionClient::FindResources) if !Rails.env.test? && DiscourseSubscriptionClient.database_exists?
 
       Rails.application.routes.append do
         mount DiscourseSubscriptionClient::Engine, at: "/admin/plugins/subscription-client"
