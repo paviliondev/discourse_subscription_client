@@ -24,13 +24,13 @@ class SubscriptionClientSupplier < ActiveRecord::Base
   end
 
   def product_slugs
-    @product_slugs ||= if products.present?
-                         products.each_with_object({}) do |product, result|
-                           result[product["product_id"]] = product["product_slug"]
-                         end
-                       else
-                         {}
-                       end
+    if products.present?
+      products.each_with_object({}) do |product, result|
+        result[product["product_id"]] = product["product_slug"]
+      end
+    else
+      {}
+    end
   end
 
   def deactivate_all_subscriptions!
