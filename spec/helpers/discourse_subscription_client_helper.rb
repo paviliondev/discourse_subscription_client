@@ -27,13 +27,14 @@ module DiscourseSubscriptionClientHelper
     )
   end
 
-  def stub_server_request(server_url, supplier, products = [], status = 200)
+  def stub_server_request(server_url, supplier: nil, products: [], status: 200)
+    body = {}
+    body[:supplier] = supplier if supplier.present?
+    body[:products] = products if products.present?
+
     stub_request(:get, "#{server_url}/subscription-server").to_return(
       status: status,
-      body: {
-        supplier: supplier,
-        products: products
-      }.to_json
+      body: body.to_json
     )
   end
 
