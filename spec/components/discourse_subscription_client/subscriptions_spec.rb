@@ -48,22 +48,16 @@ describe DiscourseSubscriptionClient::Subscriptions do
   end
 
   it "deactivates subscriptions when no subscriptions are returned" do
-    stub_subscription_request(
-      404,
-      resource,
-      {
-        error: "Failed to load discourse-custom-wizard subscriptions for #{user.username}: no subscriptions found for #{resource.name}"
-      }
-    )
+    stub_subscription_request(200, resource, {})
     described_class.update
 
-    expect(SubscriptionClientSubscription.exists?(product_id: response_body[:subscriptions][0][:product_id])).to eq(false)
+    expect(old_subscription.reload.active).to eq(false)
   end
 
-  it "deactivates subscriptions when there is a connection error" do
+  it "does not deactivate subscriptions when there is a connection error" do
     stub_subscription_request(404, resource, {})
     described_class.update
 
-    expect(SubscriptionClientSubscription.exists?(product_id: response_body[:subscriptions][0][:product_id])).to eq(false)
+    expect(old_subscription.reload.active).to eq(true)
   end
 end

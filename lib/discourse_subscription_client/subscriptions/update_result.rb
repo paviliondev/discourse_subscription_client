@@ -28,12 +28,14 @@ module ::DiscourseSubscriptionClient
       end
 
       def retrieve_subscriptions(supplier, raw_data)
-        subscriptions_data = raw_data[:subscriptions].compact
-
-        unless subscriptions_data.present? && subscriptions_data.is_a?(Array)
+        unless raw_data[:subscriptions].is_a?(Array)
           error("invalid_response", supplier)
           return []
         end
+
+        return [] unless raw_data[:subscriptions].any?
+
+        subscriptions_data = raw_data[:subscriptions].compact
 
         # subscriptions must be properly formed
 
