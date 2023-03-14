@@ -29,6 +29,7 @@ module DiscourseSubscriptionClient
         ../../app/models/subscription_client_resource
         ../../app/models/subscription_client_subscription
         ../../app/models/subscription_client_supplier
+        ../../app/controllers/discourse_subscription_client/no_access_controller
         ../../app/controllers/discourse_subscription_client/admin_controller
         ../../app/controllers/discourse_subscription_client/subscriptions_controller
         ../../app/controllers/discourse_subscription_client/suppliers_controller
