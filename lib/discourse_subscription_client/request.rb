@@ -103,10 +103,6 @@ module DiscourseSubscriptionClient
       return unless reached_limit?
 
       SubscriptionClientNotice.notify_connection_error(type, id)
-
-      return unless type === "supplier" && (supplier = SubscriptionClientSupplier.find_by_id(id))
-
-      supplier.deactivate_all_subscriptions!
     end
 
     def expire_error

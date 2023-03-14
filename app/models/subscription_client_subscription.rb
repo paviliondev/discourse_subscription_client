@@ -21,6 +21,10 @@ class SubscriptionClientSubscription < ActiveRecord::Base
     update(subscribed: false)
   end
 
+  def activate!
+    update(subscribed: true)
+  end
+
   def resource_name
     resource.name
   end

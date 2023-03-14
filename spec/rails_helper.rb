@@ -41,6 +41,11 @@ RSpec.configure do |config|
       end
     end
   end
+
+  config.before(:each) do
+    Jobs.enqueued = {}
+    Jobs.enqueued_in = {}
+  end
 end
 
 class TrackTimeStub
