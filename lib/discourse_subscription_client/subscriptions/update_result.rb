@@ -15,12 +15,11 @@ module ::DiscourseSubscriptionClient
       KEYS = REQUIRED_KEYS + OPTIONAL_KEYS
 
       attr_reader :errors,
-                  :errored_suppliers,
                   :infos
 
       def initialize
-        @errors = []
-        @infos = []
+        @errors = {}
+        @infos = {}
       end
 
       def not_authorized(supplier)
@@ -108,12 +107,12 @@ module ::DiscourseSubscriptionClient
         attrs.merge!(subscription_ids) if subscription_ids.present?
         attrs[:resource] if resource.present?
 
-        @infos << I18n.t("subscription_client.subscriptions.info.#{key}", **attrs)
+        @infos[key] = I18n.t("subscription_client.subscriptions.info.#{key}", **attrs)
       end
 
       def error(key, supplier)
-        @errors << I18n.t("subscription_client.subscriptions.error.#{key}", supplier: supplier.name,
-                                                                            supplier_url: supplier.url)
+        @errors[key] = I18n.t("subscription_client.subscriptions.error.#{key}", supplier: supplier.name,
+                                                                                supplier_url: supplier.url)
       end
     end
   end

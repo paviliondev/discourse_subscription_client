@@ -7,10 +7,12 @@ module DiscourseSubscriptionClient
     end
 
     def update
-      if DiscourseSubscriptionClient::Subscriptions.update
+      result = DiscourseSubscriptionClient::Subscriptions.update
+
+      if result.errors.blank?
         render_serialized(SubscriptionClientSubscription.all, SubscriptionSerializer, root: "subscriptions")
       else
-        render json: failed_json
+        render json: failed_json.merge(errors: result.errors)
       end
     end
   end

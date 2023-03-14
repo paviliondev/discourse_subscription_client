@@ -23,19 +23,19 @@ module DiscourseSubscriptionClient
         end
       end
 
-      if @result.errors.any?
-        @result.errors.each do |error|
-          Rails.logger.error "DiscourseSubscriptionClient::Subscriptions.update: #{error}"
+      if @result.errors.present?
+        @result.errors.each do |_key, message|
+          Rails.logger.error "DiscourseSubscriptionClient::Subscriptions.update: #{message}"
         end
       end
 
-      if SiteSetting.subscription_client_verbose_logs && @result.infos.any?
-        @result.infos.each do |info|
-          Rails.logger.info "DiscourseSubscriptionClient::Subscriptions.update: #{info}"
+      if SiteSetting.subscription_client_verbose_logs && @result.infos.present?
+        @result.infos.each do |_key, message|
+          Rails.logger.info "DiscourseSubscriptionClient::Subscriptions.update: #{message}"
         end
       end
 
-      @result.errors.blank?
+      @result
     end
 
     def update_supplier(supplier)
