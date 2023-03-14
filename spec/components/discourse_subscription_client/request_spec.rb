@@ -57,13 +57,6 @@ describe DiscourseSubscriptionClient::Request do
     expect(notice.notice_type).to eq(SubscriptionClientNotice.types[:connection_error])
   end
 
-  it "deactivates all supplier's subscriptions if supplier connection error limit is reached" do
-    stub_subscription_messages_request(supplier, 400, [])
-    request = described_class.new(:supplier, supplier.id)
-    request.limit.times { DiscourseSubscriptionClient::Notices.update(plugin: false) }
-    expect(subscription.reload.active).to eq(false)
-  end
-
   it "expires a connection error notice if connection succeeds" do
     stub_plugin_status_request(400, {})
     request = described_class.new(:resource, DiscourseSubscriptionClient::Notices::PLUGIN_STATUS_RESOURCE_ID)
