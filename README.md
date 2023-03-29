@@ -5,7 +5,7 @@ This gem is only for use with Discourse plugins. It provides subscription client
 Add this line to your plugin's `plugin.rb` file
 
 ```ruby
-gem "discourse_subscription_client", "0.1.0.pre5", require_name: "discourse_subscription_client"
+gem "discourse_subscription_client", "0.1.0.pre11", require_name: "discourse_subscription_client"
 ```
 
 ## Usage
