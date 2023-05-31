@@ -5,10 +5,11 @@ module DiscourseSubscriptionClient
     class Result
       attr_accessor :supplier,
                     :resource,
-                    :subscriptions
+                    :subscriptions,
+                    :products
 
       def any?
-        supplier.present? && resource.present? && subscriptions.present?
+        supplier.present? && resource.present? && subscriptions.present? && products.present?
       end
     end
   end

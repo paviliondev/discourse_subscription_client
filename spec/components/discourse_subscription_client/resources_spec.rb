@@ -2,7 +2,7 @@
 
 describe DiscourseSubscriptionClient::Resources, type: :multisite do
   let!(:supplier) { "Pavilion" }
-  let!(:products) { [{ product_id: "prod_CBTNpi3fqWWkq0", product_slug: "business" }] }
+  let!(:products) { { "subscription-plugin": [{ product_id: "prod_CBTNpi3fqWWkq0", product_slug: "business" }] } }
 
   before do
     DiscourseSubscriptionClient.stub(:root) { File.expand_path("../../fixtures", __dir__) }

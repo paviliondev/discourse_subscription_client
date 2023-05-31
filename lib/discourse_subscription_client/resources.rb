@@ -42,21 +42,13 @@ module DiscourseSubscriptionClient
       supplier_urls = @resources.map { |resource| resource[:supplier_url] }.uniq.compact
 
       supplier_urls.each do |url|
-        supplier = SubscriptionClientSupplier.find_by(url: url)
+        supplier = SubscriptionClientSupplier.find_or_create_by(url: url)
+        request = DiscourseSubscriptionClient::Request.new(:supplier, supplier.id)
+        data = request.perform("#{url}/subscription-server")
 
-        if supplier&.name
+        if valid_supplier_data?(data)
+          supplier.update(name: data[:supplier], products: data[:products])
           @suppliers << supplier
-        else
-          supplier ||= SubscriptionClientSupplier.create!(url: url)
-          request = DiscourseSubscriptionClient::Request.new(:supplier, supplier.id)
-          data = request.perform("#{url}/subscription-server")
-
-          if valid_supplier_data?(data)
-            supplier.update(name: data[:supplier], products: data[:products])
-            @suppliers << supplier
-          else
-            supplier.destroy!
-          end
         end
       end
     end
@@ -98,12 +90,14 @@ module DiscourseSubscriptionClient
       return false unless data.present? && data.is_a?(Hash)
       return false unless %i[supplier products].all? { |key| data.key?(key) }
       return false unless data[:supplier].is_a?(String)
-      return false unless data[:products].is_a?(Array)
+      return false unless data[:products].is_a?(Hash)
 
-      data[:products].all? do |product|
-        product.is_a?(Hash) &&
-          %i[product_id product_slug].all? do |key|
-            product.key?(key) && product[key].is_a?(String)
+      data[:products].all? do |_resource, products|
+        products.is_a?(Array) &&
+          products.all? do |product|
+            %i[product_id product_slug].all? do |key|
+              product.key?(key) && product[key].is_a?(String)
+            end
           end
       end
     end

@@ -110,9 +110,15 @@ module DiscourseSubscriptionClient
       result = DiscourseSubscriptionClient::Subscriptions::Result.new
       return result unless subscriptions.exists?
 
-      result.resource = subscriptions.first.resource
-      result.supplier = subscriptions.first.resource.supplier
+      resource = subscriptions.first.resource
+      supplier = resource.supplier
+      products = supplier.product_slugs(resource_name)
+      return result unless products.present?
+
+      result.resource = resource
+      result.supplier = supplier
       result.subscriptions = subscriptions.to_a
+      result.products = products
 
       result
     end

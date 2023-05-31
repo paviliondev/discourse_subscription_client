@@ -37,10 +37,10 @@ describe SubscriptionClientSupplier do
 
   describe "#product_slugs" do
     it "maps product slugs" do
-      expect(supplier.product_slugs).to eq({})
-      supplier.products = [{ product_id: "prod_CBTNpi3fqWWkq0", product_slug: "business" }].as_json
+      expect(supplier.product_slugs("subscription-plugin")).to eq({})
+      supplier.products = { "subscription-plugin": [{ "product_id": "prod_CBTNpi3fqWWkq0", "product_slug": "business" }] }.as_json
       supplier.save!
-      expect(supplier.reload.product_slugs).to eq({ "prod_CBTNpi3fqWWkq0" => "business" })
+      expect(supplier.reload.product_slugs("subscription-plugin")).to eq({ "prod_CBTNpi3fqWWkq0" => "business" })
     end
   end
 end
