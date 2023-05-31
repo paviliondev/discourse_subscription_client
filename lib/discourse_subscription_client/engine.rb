@@ -7,9 +7,18 @@ module DiscourseSubscriptionClient
     engine_name PLUGIN_NAME
     isolate_namespace DiscourseSubscriptionClient
 
+    def enabled_site_setting
+      @enabled_site_setting = "subscription_client_enabled"
+    end
+
+    def configurable?
+      true
+    end
+
     config.before_initialize do
       config.i18n.load_path += Dir["#{config.root}/config/locales/**/*.yml"]
       Rails.autoloaders.main.ignore(config.root) if defined?(Rails) == "constant"
+      Discourse.plugins_by_name[PLUGIN_NAME] = self
     end
 
     config.after_initialize do

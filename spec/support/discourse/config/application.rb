@@ -40,6 +40,10 @@ module Discourse
   def self.base_url_no_prefix
     "http://#{current_hostname}"
   end
+
+  def self.plugins_by_name
+    @plugins_by_name ||= {}
+  end
 end
 
 require_relative "../app/controllers/application_controller"
