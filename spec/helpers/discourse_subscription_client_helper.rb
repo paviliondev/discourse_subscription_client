@@ -30,8 +30,8 @@ module DiscourseSubscriptionClientHelper
     body[:supplier] = supplier[:name] if supplier.present?
     body[:products] = products if products.present?
 
-    stub_request(:get, "#{server_url}/subscription-server").
-      to_return(
+    stub_request(:get, "#{server_url}/subscription-server")
+      .to_return(
         status: status,
         body: body.to_json
       )

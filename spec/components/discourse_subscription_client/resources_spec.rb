@@ -6,7 +6,8 @@ describe DiscourseSubscriptionClient::Resources, type: :multisite do
 
   before do
     DiscourseSubscriptionClient.stub(:root) { File.expand_path("../../fixtures", __dir__) }
-    allow_any_instance_of(DiscourseSubscriptionClient::Resources).to receive(:find_plugins).and_return([{ name: "subscription-plugin", supplier_url: "https://coop.pavilion.tech" }])
+    allow_any_instance_of(DiscourseSubscriptionClient::Resources).to receive(:find_plugins).and_return([{ name: "subscription-plugin",
+                                                                                                          supplier_url: "https://coop.pavilion.tech" }])
   end
 
   it "finds all resources in all multisite instances" do

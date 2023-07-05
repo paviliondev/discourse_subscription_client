@@ -36,7 +36,7 @@ module DiscourseSubscriptionClient
 
     def find_resources
       resources = find_plugins
-  
+
       resources.each do |r|
         @resources << {
           name: r[:name],
