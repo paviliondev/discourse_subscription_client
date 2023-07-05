@@ -35,7 +35,14 @@ module DiscourseSubscriptionClient
     end
 
     def find_resources
-      find_plugins
+      resources = find_plugins
+  
+      resources.each do |r|
+        @resources << {
+          name: r[:name],
+          supplier_url: r[:supplier_url]
+        }
+      end
     end
 
     def find_suppliers
@@ -73,17 +80,19 @@ module DiscourseSubscriptionClient
     end
 
     def find_plugins
+      plugins = []
       Dir["#{DiscourseSubscriptionClient.root}/plugins/*/plugin.rb"].sort.each do |path|
         source = File.read(path)
         metadata = Plugin::Metadata.parse(source)
 
         next unless metadata.subscription_url.present?
 
-        @resources << {
+        plugins << {
           name: metadata.name,
           supplier_url: ENV["TEST_SUBSCRIPTION_URL"] || metadata.subscription_url
         }
       end
+      plugins
     end
 
     def valid_supplier_data?(data)
@@ -93,12 +102,11 @@ module DiscourseSubscriptionClient
       return false unless data[:products].is_a?(Hash)
 
       data[:products].all? do |_resource, products|
-        products.is_a?(Array) &&
-          products.all? do |product|
-            %i[product_id product_slug].all? do |key|
-              product.key?(key) && product[key].is_a?(String)
-            end
+        products.is_a?(Array) && products.all? do |product|
+          %i[product_id product_slug].all? do |key|
+            product.key?(key) && product[key].is_a?(String)
           end
+        end
       end
     end
   end
