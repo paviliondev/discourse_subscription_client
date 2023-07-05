@@ -5,6 +5,7 @@ describe DiscourseSubscriptionClient::Subscriptions do
   let!(:supplier) { Fabricate(:subscription_client_supplier, api_key: Fabricate(:subscription_client_user_api_key)) }
   let!(:resource) { Fabricate(:subscription_client_resource, supplier: supplier) }
   let!(:old_subscription) { Fabricate(:subscription_client_subscription, resource: resource) }
+  let!(:products) { { "subscription-plugin": [{ product_id: "prod_CBTNpi3fqWWkq0", product_slug: "business" }] } }
   let(:response_body) do
     {
       subscriptions: [
@@ -17,6 +18,11 @@ describe DiscourseSubscriptionClient::Subscriptions do
         }
       ]
     }
+  end
+
+  before(:each) do
+    stub_server_request(supplier.url, supplier: supplier, products: products, status: 200)
+    allow_any_instance_of(DiscourseSubscriptionClient::Resources).to receive(:find_plugins).and_return([{ name: resource.name, supplier_url: supplier.url }])
   end
 
   it "updates subscriptions" do

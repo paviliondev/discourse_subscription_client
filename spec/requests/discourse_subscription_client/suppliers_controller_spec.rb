@@ -5,6 +5,7 @@ describe DiscourseSubscriptionClient::SuppliersController do
   let(:moderator) { create_discourse_user(moderator: true) }
   let!(:supplier) { Fabricate(:subscription_client_supplier) }
   let!(:resource) { Fabricate(:subscription_client_resource, supplier: supplier) }
+  let!(:products) { { "subscription-plugin": [{ product_id: "prod_CBTNpi3fqWWkq0", product_slug: "business" }] } }
   let(:subscription_response) do
     {
       subscriptions: [
@@ -22,6 +23,11 @@ describe DiscourseSubscriptionClient::SuppliersController do
   context "with admin" do
     before do
       sign_in(admin)
+    end
+
+    before(:each) do
+      allow_any_instance_of(DiscourseSubscriptionClient::Resources).to receive(:find_plugins).and_return([{ name: resource.name, supplier_url: supplier.url }])
+      stub_server_request(supplier.url, supplier: supplier, products: products, status: 200)
     end
 
     it "lists suppliers" do
@@ -67,6 +73,11 @@ describe DiscourseSubscriptionClient::SuppliersController do
     before do
       SiteSetting.subscription_client_allow_moderator_subscription_management = true
       sign_in(moderator)
+    end
+
+    before(:each) do
+      allow_any_instance_of(DiscourseSubscriptionClient::Resources).to receive(:find_plugins).and_return([{ name: resource.name, supplier_url: supplier.url }])
+      stub_server_request(supplier.url, supplier: supplier, products: products, status: 200)
     end
 
     it "doesnt allow access" do

@@ -1,11 +1,13 @@
 # frozen_string_literal: true
 
 describe DiscourseSubscriptionClient::Resources, type: :multisite do
-  let!(:supplier) { "Pavilion" }
+  let!(:supplier) { { name: "Pavilion" } }
   let!(:products) { { "subscription-plugin": [{ product_id: "prod_CBTNpi3fqWWkq0", product_slug: "business" }] } }
 
   before do
     DiscourseSubscriptionClient.stub(:root) { File.expand_path("../../fixtures", __dir__) }
+    allow_any_instance_of(DiscourseSubscriptionClient::Resources).to receive(:find_plugins).and_return([{ name: "subscription-plugin",
+                                                                                                          supplier_url: "https://coop.pavilion.tech" }])
   end
 
   it "finds all resources in all multisite instances" do
