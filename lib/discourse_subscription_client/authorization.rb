@@ -4,8 +4,9 @@ module DiscourseSubscriptionClient
   class Authorization
     SCOPE ||= "discourse-subscription-server:user_subscription"
 
-    # default the final landing path of an authorisation loop to the subscriptions plugin location,
+    # default the final landing path of an authorisation loop to the subscriptions client plugin location,
     # but allow this to be changed by inclusion of a parameter in the authorize method of the Suppliers Controller
+    # to tailor it for each individual plugin leveraging the gem.
     @@completed_authorisation_callback_final_landing_path = "/admin/plugins/subscription-client/subscriptions"
 
     def self.request_id(supplier_id)
