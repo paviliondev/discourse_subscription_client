@@ -11,10 +11,10 @@ module DiscourseSubscriptionClient
     end
 
     def authorize
-      return_path = params[:return_path]
+      final_landing_path = params[:final_landing_path]
 
       if !return_path.blank?
-        DiscourseSubscriptionClient::Authorization.completed_authorisation_callback_redirect_path = return_path
+        DiscourseSubscriptionClient::Authorization.completed_authorisation_callback_final_landing_path = final_landing_path
       end
 
       request_id = DiscourseSubscriptionClient::Authorization.request_id(@supplier.id)
@@ -42,8 +42,8 @@ module DiscourseSubscriptionClient
 
       DiscourseSubscriptionClient::Subscriptions.update
 
-      if !DiscourseSubscriptionClient::Authorization.completed_authorisation_callback_redirect_path.blank?
-        redirect_to DiscourseSubscriptionClient::Authorization.completed_authorisation_callback_redirect_path
+      if !DiscourseSubscriptionClient::Authorization.completed_authorisation_callback_final_landing_path.blank?
+        redirect_to DiscourseSubscriptionClient::Authorization.completed_authorisation_callback_final_landing_path
       else
         redirect_to "/admin/plugins"
       end

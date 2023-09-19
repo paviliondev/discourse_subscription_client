@@ -4,7 +4,9 @@ module DiscourseSubscriptionClient
   class Authorization
     SCOPE ||= "discourse-subscription-server:user_subscription"
 
-    @@completed_authorisation_callback_redirect_path = ""
+    # default the final landing path of an authorisation loop to the subscriptions plugin location,
+    # but allow this to be changed by inclusion of a parameter in the authorize method of the Suppliers Controller
+    @@completed_authorisation_callback_final_landing_path = "/admin/plugins/subscription-client/subscriptions"
 
     def self.request_id(supplier_id)
       "#{supplier_id}-#{SecureRandom.hex(32)}"
@@ -99,12 +101,12 @@ module DiscourseSubscriptionClient
       PluginStore.remove(DiscourseSubscriptionClient::PLUGIN_NAME, "#{keys_db_key}_#{request_id}")
     end
 
-    def self.completed_authorisation_callback_redirect_path
-      @@completed_authorisation_callback_redirect_path
+    def self.completed_authorisation_callback_final_landing_path
+      @@completed_authorisation_callback_final_landing_path
     end
 
-    def self.completed_authorisation_callback_redirect_path=(path)
-      @@completed_authorisation_callback_redirect_path = path
+    def self.completed_authorisation_callback_final_landing_path=(path)
+      @@completed_authorisation_callback_final_landing_path = path
     end
   end
 end
