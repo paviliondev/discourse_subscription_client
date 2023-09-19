@@ -13,9 +13,7 @@ module DiscourseSubscriptionClient
     def authorize
       final_landing_path = params[:final_landing_path]
 
-      if !return_path.blank?
-        DiscourseSubscriptionClient::Authorization.completed_authorisation_callback_final_landing_path = final_landing_path
-      end
+      DiscourseSubscriptionClient::Authorization.completed_authorisation_callback_final_landing_path = final_landing_path unless return_path.blank?
 
       request_id = DiscourseSubscriptionClient::Authorization.request_id(@supplier.id)
       cookies[:user_api_request_id] = request_id
