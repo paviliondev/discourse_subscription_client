@@ -4,6 +4,8 @@ module DiscourseSubscriptionClient
   class Authorization
     SCOPE ||= "discourse-subscription-server:user_subscription"
 
+    @@completed_authorisation_callback_redirect_path = ""
+
     def self.request_id(supplier_id)
       "#{supplier_id}-#{SecureRandom.hex(32)}"
     end
@@ -95,6 +97,14 @@ module DiscourseSubscriptionClient
 
     def self.delete_keys(request_id)
       PluginStore.remove(DiscourseSubscriptionClient::PLUGIN_NAME, "#{keys_db_key}_#{request_id}")
+    end
+
+    def self.completed_authorisation_callback_redirect_path
+      @@completed_authorisation_callback_redirect_path
+    end
+
+    def self.completed_authorisation_callback_redirect_path=(path)
+      @@completed_authorisation_callback_redirect_path = path
     end
   end
 end
