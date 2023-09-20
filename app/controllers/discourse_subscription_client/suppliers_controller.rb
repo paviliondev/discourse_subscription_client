@@ -13,7 +13,10 @@ module DiscourseSubscriptionClient
     def authorize
       final_landing_path = params[:final_landing_path]
 
-      DiscourseSubscriptionClient::Authorization.completed_authorisation_callback_final_landing_path = final_landing_path unless return_path.blank?
+      # default the final landing path of an authorisation loop to the subscriptions client plugin location,
+      # but allow this to be changed by inclusion of a parameter to tailor it for each individual plugin
+      # leveraging the gem.
+      session[:final_landing_path] = return_path.blank? ? "/admin/plugins/subscription-client/subscriptions" : final_landing_path
 
       request_id = DiscourseSubscriptionClient::Authorization.request_id(@supplier.id)
       cookies[:user_api_request_id] = request_id
@@ -40,8 +43,8 @@ module DiscourseSubscriptionClient
 
       DiscourseSubscriptionClient::Subscriptions.update
 
-      if !DiscourseSubscriptionClient::Authorization.completed_authorisation_callback_final_landing_path.blank?
-        redirect_to DiscourseSubscriptionClient::Authorization.completed_authorisation_callback_final_landing_path
+      if !session[:final_landing_path].blank?
+        redirect_to session[:final_landing_path]
       else
         redirect_to "/admin/plugins"
       end
