@@ -11,6 +11,8 @@ module DiscourseSubscriptionClient
     end
 
     def authorize
+      session[:final_landing_path] = params[:final_landing_path]
+
       request_id = DiscourseSubscriptionClient::Authorization.request_id(@supplier.id)
       cookies[:user_api_request_id] = request_id
       redirect_to DiscourseSubscriptionClient::Authorization.url(current_user, @supplier, request_id).to_s,
@@ -36,7 +38,11 @@ module DiscourseSubscriptionClient
 
       DiscourseSubscriptionClient::Subscriptions.update
 
-      redirect_to "/admin/plugins/subscription-client/subscriptions"
+      if !session[:final_landing_path].blank?
+        redirect_to session[:final_landing_path]
+      else
+        redirect_to "/admin/plugins"
+      end
     end
 
     def destroy

@@ -43,6 +43,12 @@ describe DiscourseSubscriptionClient::SuppliersController do
       expect(@request.cookie_jar[:user_api_request_id].present?).to eq(true)
     end
 
+    it "authorizes and stores requested landing page" do
+      get "/admin/plugins/subscription-client/suppliers/authorize", params: { supplier_id: supplier.id, final_landing_path: "/admin/wizards/wizard" }
+      expect(response.status).to eq(302)
+      expect(session[:final_landing_path]).to eq("/admin/wizards/wizard")
+    end
+
     it "handles authorization callbacks" do
       request_id = cookies[:user_api_request_id] = DiscourseSubscriptionClient::Authorization.request_id(supplier.id)
       payload = generate_auth_payload(admin.id, request_id)
@@ -54,6 +60,16 @@ describe DiscourseSubscriptionClient::SuppliersController do
       subscription = SubscriptionClientSubscription.find_by(resource_id: resource.id)
       expect(subscription.present?).to eq(true)
       expect(subscription.subscribed).to eq(true)
+    end
+
+    it "handles authorization callbacks and redirects to prior requested landing path" do
+      session[:final_landing_path] = "/admin/wizards/wizard"
+      request_id = cookies[:user_api_request_id] = DiscourseSubscriptionClient::Authorization.request_id(supplier.id)
+      payload = generate_auth_payload(admin.id, request_id)
+      stub_subscription_request(200, resource, subscription_response)
+
+      get "/admin/plugins/subscription-client/suppliers/authorize/callback", params: { payload: payload }
+      expect(response).to redirect_to("/admin/wizards/wizard")
     end
 
     it "destroys authorizations" do
