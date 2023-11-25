@@ -24,7 +24,7 @@ module DiscourseSubscriptionClient
     config.after_initialize do
       gem_root = File.expand_path("../..", __dir__)
 
-      ActiveRecord::Tasks::DatabaseTasks.migrations_paths << "#{gem_root}/db/migrate"
+      ActiveRecord::Tasks::DatabaseTasks.migrations_paths << "#{gem_root}/db/migrate" unless ENV["DISCOURSE_SUBSCRIPTION_CLIENT_SKIP_MIGRATIONS"]
 
       %w[
         ./request
