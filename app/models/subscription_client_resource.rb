@@ -16,12 +16,3 @@ end
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #
-# Indexes
-#
-#  index_subscription_client_resources_on_supplier_id           (supplier_id)
-#  index_subscription_client_resources_on_supplier_id_and_name  (supplier_id,name) UNIQUE
-#
-# Foreign Keys
-#
-#  fk_rails_...  (supplier_id => subscription_client_suppliers.id)
-#

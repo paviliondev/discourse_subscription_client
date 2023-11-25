@@ -244,7 +244,7 @@ DEPENDENCIES
   message_bus
   mini_scheduler
   pg
-  rails (>= 7.0.4.1)
+  rails (~> 7.0.4.1)
   rails_multisite
   rspec-activemodel-mocks
   rspec-rails

@@ -50,9 +50,5 @@ end
 #  authorized_at :datetime
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
-#
-# Indexes
-#
-#  index_subscription_client_suppliers_on_url      (url) UNIQUE
-#  index_subscription_client_suppliers_on_user_id  (user_id)
+#  products      :json
 #

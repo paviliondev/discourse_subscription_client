@@ -48,12 +48,3 @@ end
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
 #
-# Indexes
-#
-#  index_subscription_client_subscriptions_on_resource_id  (resource_id)
-#  sc_unique_subscriptions                                 (resource_id,product_id,price_id) UNIQUE
-#
-# Foreign Keys
-#
-#  fk_rails_...  (resource_id => subscription_client_resources.id)
-#

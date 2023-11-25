@@ -30,7 +30,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "message_bus"
   spec.add_development_dependency "mini_scheduler"
   spec.add_development_dependency "pg"
-  spec.add_development_dependency "rails", ">= 7.0.4.1"
+  spec.add_development_dependency "rails", "~> 7.0.4.1"
   spec.add_development_dependency "rails_multisite"
   spec.add_development_dependency "rspec-activemodel-mocks"
   spec.add_development_dependency "rspec-rails"

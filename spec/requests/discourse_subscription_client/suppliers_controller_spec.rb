@@ -20,6 +20,8 @@ describe DiscourseSubscriptionClient::SuppliersController do
     }
   end
 
+  include_context "session double"
+
   context "with admin" do
     before do
       sign_in(admin)
@@ -50,6 +52,7 @@ describe DiscourseSubscriptionClient::SuppliersController do
     end
 
     it "handles authorization callbacks" do
+      session_hash[:final_landing_path] = "/admin/plugins/subscription-client/subscriptions"
       request_id = cookies[:user_api_request_id] = DiscourseSubscriptionClient::Authorization.request_id(supplier.id)
       payload = generate_auth_payload(admin.id, request_id)
       stub_subscription_request(200, resource, subscription_response)
@@ -63,7 +66,7 @@ describe DiscourseSubscriptionClient::SuppliersController do
     end
 
     it "handles authorization callbacks and redirects to prior requested landing path" do
-      session[:final_landing_path] = "/admin/wizards/wizard"
+      session_hash[:final_landing_path] = "/admin/wizards/wizard"
       request_id = cookies[:user_api_request_id] = DiscourseSubscriptionClient::Authorization.request_id(supplier.id)
       payload = generate_auth_payload(admin.id, request_id)
       stub_subscription_request(200, resource, subscription_response)
@@ -119,6 +122,7 @@ describe DiscourseSubscriptionClient::SuppliersController do
       end
 
       it "handles authorization callbacks" do
+        session_hash[:final_landing_path] = "/admin/plugins/subscription-client/subscriptions"
         request_id = cookies[:user_api_request_id] = DiscourseSubscriptionClient::Authorization.request_id(supplier.id)
         payload = generate_auth_payload(moderator.id, request_id)
         stub_subscription_request(200, resource, subscription_response)

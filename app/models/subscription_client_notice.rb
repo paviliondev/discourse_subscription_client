@@ -215,8 +215,3 @@ end
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
 #
-# Indexes
-#
-#  index_subscription_client_notices_on_notice_subject  (notice_subject_type,notice_subject_id)
-#  sc_unique_notices                                    (notice_type,notice_subject_type,notice_subject_id,changed_at) UNIQUE
-#
