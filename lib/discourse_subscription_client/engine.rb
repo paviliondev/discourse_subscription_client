@@ -70,23 +70,6 @@ module DiscourseSubscriptionClient
       SiteSerializer.prepend DiscourseSubscriptionClient::SiteSerializerExtension
 
       User.has_many(:subscription_client_suppliers)
-
-      AdminDashboardData.add_scheduled_problem_check(:subscription_client) do
-        return unless SiteSetting.subscription_client_warning_notices_on_dashboard
-
-        notices = SubscriptionClientNotice.list(
-          notice_type: SubscriptionClientNotice.error_types,
-          visible: true
-        )
-        notices.map do |notice|
-          AdminDashboardData::Problem.new(
-            "#{notice.title}: #{notice.message}",
-            priority: "high",
-            identifier: "subscription_client_notice_#{notice.id}"
-          )
-        end
-      end
-
       DiscourseEvent.trigger(:subscription_client_ready)
     end
   end
