@@ -72,4 +72,16 @@ describe DiscourseSubscriptionClient::Subscriptions do
 
     expect(SubscriptionClientSubscription.exists?(product_id: response_body[:subscriptions][0][:product_id])).to eq(false)
   end
+
+  it "triggers an event" do
+    stub_subscription_request(200, resource, response_body)
+    DiscourseEvent
+      .should_receive(:trigger)
+      .with(
+        :subscription_client_subscriptions_updated,
+        instance_of(DiscourseSubscriptionClient::Subscriptions::UpdateResult)
+      )
+      .once
+    described_class.update
+  end
 end

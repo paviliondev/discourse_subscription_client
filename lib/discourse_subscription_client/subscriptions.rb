@@ -37,6 +37,8 @@ module DiscourseSubscriptionClient
         end
       end
 
+      DiscourseEvent.trigger(:subscription_client_subscriptions_updated, @result)
+
       @result.errors.blank?
     end
 
