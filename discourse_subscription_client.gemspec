@@ -37,4 +37,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rubocop"
   spec.add_development_dependency "sprockets-rails"
   spec.add_development_dependency "webmock"
+  spec.add_development_dependency "aws-sdk-s3"
 end

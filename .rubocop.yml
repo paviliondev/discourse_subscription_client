@@ -8,6 +8,9 @@ Lint/ConstantDefinitionInBlock:
   Exclude:
     - 'spec/**/*.rb'
 
+Lint/UselessAssignment:
+  Enabled: false
+
 Metrics/BlockLength:
   Exclude:
     - 'omnievent.gemspec'
