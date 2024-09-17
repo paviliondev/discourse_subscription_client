@@ -47,7 +47,7 @@ module DiscourseSubscriptionClient
 
     def destroy
       if @supplier.destroy_authorization
-        render json: success_json.merge(supplier: @supplier.reload)
+        render json: success_json.merge(supplier_id: @supplier.id)
       else
         render json: failed_json
       end

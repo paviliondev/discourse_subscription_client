@@ -84,6 +84,7 @@ describe DiscourseSubscriptionClient::SuppliersController do
 
       delete "/admin/plugins/subscription-client/suppliers/authorize", params: { supplier_id: supplier.id }
       expect(response.status).to eq(200)
+      expect(response.parsed_body["supplier_id"]).to eq(supplier.id)
       expect(supplier.authorized?).to eq(false)
     end
   end
