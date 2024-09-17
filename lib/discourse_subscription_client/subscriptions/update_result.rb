@@ -3,16 +3,21 @@
 module ::DiscourseSubscriptionClient
   class Subscriptions
     class UpdateResult
-      REQUIRED_KEYS ||= %i[
+      REQUIRED_SUBSCRIPTION_KEYS ||= %i[
         resource_id
         product_id
         price_id
       ].freeze
-      OPTIONAL_KEYS ||= %i[
+      OPTIONAL_SUBSCRIPTION_KEYS ||= %i[
         product_name
         price_name
       ].freeze
-      KEYS = REQUIRED_KEYS + OPTIONAL_KEYS
+      SUBSCRIPTION_KEYS = REQUIRED_SUBSCRIPTION_KEYS + OPTIONAL_SUBSCRIPTION_KEYS
+      REQUIRED_RESOURCE_KEYS ||= %i[
+        resource
+        access_key_id
+        secret_access_key
+      ]
 
       attr_reader :errors,
                   :errored_suppliers,
@@ -35,16 +40,10 @@ module ::DiscourseSubscriptionClient
           return []
         end
 
-        # subscriptions must be properly formed
-
-        subscriptions_data =
-          subscriptions_data
-          .map(&:symbolize_keys)
-          .each { |data| data[:resource_id] = data[:resource] }
-          .select { |data| REQUIRED_KEYS.all? { |key| data.key?(key) } }
+        subscriptions_data = format_subscriptions_data(subscriptions_data)
+        resources_data = format_resources_data(raw_data[:resources])
 
         # we only care about subscriptions for resources on this instance
-
         resources = SubscriptionClientResource.where(
           supplier_id: supplier.id,
           name: subscriptions_data.map { |data| data[:resource] }
@@ -56,14 +55,35 @@ module ::DiscourseSubscriptionClient
           if resource.present?
             data[:resource_id] = resource.id
             result << OpenStruct.new(
-              required: data.slice(*REQUIRED_KEYS),
-              create: data.slice(*KEYS),
-              subscription: nil
+              required: data.slice(*REQUIRED_SUBSCRIPTION_KEYS),
+              create: data.slice(*SUBSCRIPTION_KEYS),
+              subscription: nil,
+              resource: resource,
+              resource_data: resources_data[resource.name]
             )
           else
             info("no_resource", supplier, resource: data[:resource])
           end
         end
+      end
+
+      def format_subscriptions_data(subscriptions_data)
+        subscriptions_data
+          .map(&:symbolize_keys)
+          .each { |data| data[:resource_id] = data[:resource] }
+          .select { |data| REQUIRED_SUBSCRIPTION_KEYS.all? { |key| data.key?(key) } }
+      end
+
+      def format_resources_data(resources_data)
+        return {} unless resources_data
+
+        resources_data
+          .compact
+          .map(&:symbolize_keys)
+          .select { |data| REQUIRED_RESOURCE_KEYS.all? { |key| data.key?(key) } }
+          .each_with_object({}) do |data, result|
+            result[data[:resource]] = data.slice(:access_key_id, :secret_access_key)
+          end
       end
 
       def connection_error(supplier)

@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 20_230_223_135_957) do
+ActiveRecord::Schema[7.0].define(version: 20_240_917_131_841) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -49,6 +49,8 @@ ActiveRecord::Schema[7.0].define(version: 20_230_223_135_957) do
     t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "access_key_id"
+    t.string "secret_access_key"
     t.index %w[supplier_id name], name: "index_subscription_client_resources_on_supplier_id_and_name", unique: true
     t.index ["supplier_id"], name: "index_subscription_client_resources_on_supplier_id"
   end

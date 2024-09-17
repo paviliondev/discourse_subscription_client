@@ -87,6 +87,8 @@ module DiscourseSubscriptionClient
             @result.failed_to_create_subscription(supplier, subscription_ids: data.required)
           end
         end
+
+        data.resource.update(data.resource_data) if data.resource.present? && data.resource_data.present?
       end
     end
 

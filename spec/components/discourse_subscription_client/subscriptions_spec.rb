@@ -16,7 +16,8 @@ describe DiscourseSubscriptionClient::Subscriptions do
           price_id: SecureRandom.hex(8),
           price_name: "Yearly"
         }
-      ]
+      ],
+      resources: []
     }
   end
 
@@ -83,5 +84,28 @@ describe DiscourseSubscriptionClient::Subscriptions do
       )
       .once
     described_class.update
+  end
+
+  context "with resources data" do
+    let(:resources_response_body) do
+      response_body.merge(
+        resources: [
+          {
+            resource: resource.name,
+            access_key_id: "12345",
+            secret_access_key: "678910"
+          }
+        ]
+      )
+    end
+
+    it "updates resources" do
+      stub_subscription_request(200, resource, resources_response_body)
+      described_class.update
+
+      resource.reload
+      expect(resource.access_key_id).to eq("12345")
+      expect(resource.secret_access_key).to eq("678910")
+    end
   end
 end
