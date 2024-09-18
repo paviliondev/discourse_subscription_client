@@ -24,6 +24,7 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency "active_model_serializers", "~> 0.8.3"
   spec.add_development_dependency "annotate"
+  spec.add_development_dependency "aws-sdk-s3"
   spec.add_development_dependency "byebug"
   spec.add_development_dependency "excon"
   spec.add_development_dependency "fabrication"
@@ -37,5 +38,4 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rubocop"
   spec.add_development_dependency "sprockets-rails"
   spec.add_development_dependency "webmock"
-  spec.add_development_dependency "aws-sdk-s3"
 end
