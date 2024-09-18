@@ -8,21 +8,19 @@ class SubscriptionClientResource < ActiveRecord::Base
   has_many :subscriptions, foreign_key: "resource_id", class_name: "SubscriptionClientSubscription", dependent: :destroy
 
   def get_source_url(bucket)
-    return nil unless access_key_id && secret_access_key
+    return nil unless access_key_id && secret_access_key && s3_client
     return nil unless can_access_bucket?(bucket)
 
     "s3://#{access_key_id}:#{secret_access_key}@#{bucket}"
   end
 
   def can_access_bucket?(bucket)
-    begin
-      s3_client.head_bucket(bucket: bucket)
-    rescue Aws::S3::Errors::BadRequest,
-           Aws::S3::Errors::Forbidden,
-           Aws::S3::Errors::NotFound => e
-      return false
-    end
+    s3_client.head_bucket(bucket: bucket)
     true
+  rescue Aws::S3::Errors::BadRequest,
+         Aws::S3::Errors::Forbidden,
+         Aws::S3::Errors::NotFound
+    false
   end
 
   def s3_client
