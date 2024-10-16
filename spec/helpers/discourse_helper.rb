@@ -13,8 +13,8 @@ module DiscourseHelper
   end
 
   def sign_in(user)
-    ApplicationController.any_instance.stub(:current_user) { user }
-    Guardian.any_instance.stub(:is_admin?) { true } if user.admin
-    Guardian.any_instance.stub(:is_staff?) { true } if user.moderator || user.admin
+    allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(user)
+    allow_any_instance_of(Guardian).to receive(:is_admin?).and_return(true) if user.admin
+    allow_any_instance_of(Guardian).to receive(:is_staff?).and_return(true) if user.moderator || user.admin
   end
 end

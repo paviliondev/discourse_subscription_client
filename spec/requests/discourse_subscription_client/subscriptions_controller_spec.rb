@@ -40,7 +40,7 @@ describe DiscourseSubscriptionClient::SubscriptionsController do
   end
 
   it "updates subscriptions and fixes legacy supplier data" do
-    stub_subscription_request(200, resource, subscription_response)
+    stub_subscription_request(200, [resource], subscription_response)
     old_supplier_record = SubscriptionClientSupplier.first
     old_supplier_record.update(products: nil)
 
@@ -52,7 +52,7 @@ describe DiscourseSubscriptionClient::SubscriptionsController do
   end
 
   it "updates subscriptions" do
-    stub_subscription_request(200, resource, { subscriptions: [] })
+    stub_subscription_request(200, [resource], { subscriptions: [] })
     post "/admin/plugins/subscription-client/subscriptions.json"
     expect(response.status).to eq(200)
     expect(subscription.reload.subscribed).to eq(false)

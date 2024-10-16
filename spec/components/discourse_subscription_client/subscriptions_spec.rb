@@ -27,7 +27,7 @@ describe DiscourseSubscriptionClient::Subscriptions do
   end
 
   it "updates subscriptions" do
-    stub_subscription_request(200, resource, response_body)
+    stub_subscription_request(200, [resource], response_body)
     described_class.update
 
     subscription = SubscriptionClientSubscription.find_by(product_id: response_body[:subscriptions][0][:product_id])
@@ -36,13 +36,13 @@ describe DiscourseSubscriptionClient::Subscriptions do
   end
 
   it "deactivates subscriptions" do
-    stub_subscription_request(200, resource, response_body)
+    stub_subscription_request(200, [resource], response_body)
     described_class.update
     expect(old_subscription.reload.subscribed).to eq(false)
   end
 
   it "reactivates subscriptions" do
-    stub_subscription_request(200, resource, response_body)
+    stub_subscription_request(200, [resource], response_body)
     described_class.update
 
     subscription = SubscriptionClientSubscription.find_by(product_id: response_body[:subscriptions][0][:product_id])
@@ -57,7 +57,7 @@ describe DiscourseSubscriptionClient::Subscriptions do
   it "deactivates subscriptions when no subscriptions are returned" do
     stub_subscription_request(
       404,
-      resource,
+      [resource],
       {
         error: "Failed to load discourse-custom-wizard subscriptions for #{user.username}: no subscriptions found for #{resource.name}"
       }
@@ -68,16 +68,15 @@ describe DiscourseSubscriptionClient::Subscriptions do
   end
 
   it "deactivates subscriptions when there is a connection error" do
-    stub_subscription_request(404, resource, {})
+    stub_subscription_request(404, [resource], {})
     described_class.update
 
     expect(SubscriptionClientSubscription.exists?(product_id: response_body[:subscriptions][0][:product_id])).to eq(false)
   end
 
   it "triggers an event" do
-    stub_subscription_request(200, resource, response_body)
-    DiscourseEvent
-      .should_receive(:trigger)
+    stub_subscription_request(200, [resource], response_body)
+    expect(DiscourseEvent).to receive(:trigger)
       .with(
         :subscription_client_subscriptions_updated,
         instance_of(DiscourseSubscriptionClient::Subscriptions::UpdateResult)
@@ -100,7 +99,7 @@ describe DiscourseSubscriptionClient::Subscriptions do
     end
 
     it "updates resources" do
-      stub_subscription_request(200, resource, resources_response_body)
+      stub_subscription_request(200, [resource], resources_response_body)
       described_class.update
 
       resource.reload

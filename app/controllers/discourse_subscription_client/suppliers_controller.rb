@@ -7,7 +7,13 @@ module DiscourseSubscriptionClient
     before_action :find_supplier, only: %i[authorize destroy]
 
     def index
-      render_serialized(SubscriptionClientSupplier.all, SupplierSerializer, root: "suppliers")
+      suppliers = SubscriptionClientSupplier.all
+      if params[:resource]
+        suppliers = suppliers
+                    .joins(:resources)
+                    .where(resources: { name: params[:resource] })
+      end
+      render_serialized(suppliers, SupplierSerializer, root: "suppliers")
     end
 
     def authorize

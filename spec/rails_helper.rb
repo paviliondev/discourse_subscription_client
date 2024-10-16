@@ -65,10 +65,10 @@ def freeze_time(now = Time.now)
 
   raise "nested freeze time not supported" if block_given? && TrackTimeStub.stubbed
 
-  DateTime.stub(:now) { datetime }
-  Time.stub(:now) { time }
-  Date.stub(:today) { datetime.to_date }
-  TrackTimeStub.stub(:stubbed) { true }
+  allow(DateTime).to receive(:now).and_return(datetime)
+  allow(Time).to receive(:now).and_return(time)
+  allow(Date).to receive(:today).and_return(datetime.to_date)
+  allow(TrackTimeStub).to receive(:stubbed).and_return(true)
 
   if block_given?
     begin
