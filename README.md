@@ -53,7 +53,7 @@ RAILS_ENV=test rake db:drop db:create db:migrate
 If you're not adding new migrations you only need to load the schema. If you are running migrations you need to also load the schema (in addition to running the migrations)
 
 ```
-RAILS_ENV=test rake db:schema:load
+RAILS_ENV=test bundle exec rake db:schema:load
 ```
 
 ## License
