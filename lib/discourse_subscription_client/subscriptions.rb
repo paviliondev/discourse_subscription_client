@@ -54,23 +54,19 @@ module DiscourseSubscriptionClient
       return (supplier.deactivate_all_subscriptions! && @result.connection_error(supplier)) if response.nil?
 
       subscription_data = @result.retrieve_subscriptions(supplier, response)
-      return supplier.deactivate_all_subscriptions! if @result.errors.any?
+      return supplier.deactivate_all_subscriptions! if subscription_data.blank?
 
       # deactivate any of the supplier's subscriptions not retrieved from supplier
-      if supplier.subscriptions.present?
-        supplier.subscriptions.each do |subscription|
-          has_match = false
-          subscription_data.each do |data|
-            if data_matches_subscription(data, subscription)
-              data.subscription = subscription
-              has_match = true
-            end
+      supplier.subscriptions.each do |subscription|
+        has_match = false
+        subscription_data.each do |data|
+          if data_matches_subscription(data, subscription)
+            data.subscription = subscription
+            has_match = true
           end
-          subscription.deactivate! unless has_match
         end
+        subscription.deactivate! unless has_match
       end
-
-      return @result.no_subscriptions(supplier) if subscription_data.blank?
 
       subscription_data.each do |data|
         if data.subscription.present?
