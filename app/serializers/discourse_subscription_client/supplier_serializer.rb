@@ -4,6 +4,7 @@ module DiscourseSubscriptionClient
   class SupplierSerializer < ApplicationSerializer
     attributes :id,
                :name,
+               :url,
                :authorized,
                :authorized_at
 
