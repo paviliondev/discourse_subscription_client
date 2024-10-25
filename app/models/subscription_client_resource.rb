@@ -7,13 +7,6 @@ class SubscriptionClientResource < ActiveRecord::Base
   has_many :notices, class_name: "SubscriptionClientNotice", as: :notice_subject, dependent: :destroy
   has_many :subscriptions, foreign_key: "resource_id", class_name: "SubscriptionClientSubscription", dependent: :destroy
 
-  def get_source_url(bucket)
-    return nil unless access_key_id && secret_access_key && s3_client
-    return nil unless can_access_bucket?(bucket)
-
-    "s3://#{CGI.escapeURIComponent(access_key_id)}:#{CGI.escapeURIComponent(secret_access_key)}@#{bucket}"
-  end
-
   def can_access_bucket?(bucket)
     s3_client.head_bucket(bucket: bucket)
     true
@@ -28,11 +21,15 @@ class SubscriptionClientResource < ActiveRecord::Base
       return nil unless access_key_id && secret_access_key
 
       Aws::S3::Client.new(
-        region: "us-east-1",
+        region: region,
         access_key_id: access_key_id,
         secret_access_key: secret_access_key
       )
     end
+  end
+
+  def region
+    "us-east-1"
   end
 end
 
