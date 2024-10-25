@@ -1,32 +1,9 @@
 # frozen_string_literal: true
 
-require "aws-sdk-s3"
-
 class SubscriptionClientResource < ActiveRecord::Base
   belongs_to :supplier, class_name: "SubscriptionClientSupplier"
   has_many :notices, class_name: "SubscriptionClientNotice", as: :notice_subject, dependent: :destroy
   has_many :subscriptions, foreign_key: "resource_id", class_name: "SubscriptionClientSubscription", dependent: :destroy
-
-  def can_access_bucket?(bucket)
-    s3_client.head_bucket(bucket: bucket)
-    true
-  rescue Aws::S3::Errors::BadRequest,
-         Aws::S3::Errors::Forbidden,
-         Aws::S3::Errors::NotFound
-    false
-  end
-
-  def s3_client
-    @s3_client ||= begin
-      return nil unless access_key_id && secret_access_key
-
-      Aws::S3::Client.new(
-        region: region,
-        access_key_id: access_key_id,
-        secret_access_key: secret_access_key
-      )
-    end
-  end
 
   def region
     "us-east-1"

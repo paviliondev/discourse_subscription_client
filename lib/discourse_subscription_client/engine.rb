@@ -30,6 +30,7 @@ module DiscourseSubscriptionClient
         ./request
         ./authorization
         ./resources
+        ./s3_gem
         ./notices
         ./subscriptions
         ./subscriptions/result
