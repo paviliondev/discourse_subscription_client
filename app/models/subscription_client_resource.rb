@@ -11,7 +11,7 @@ class SubscriptionClientResource < ActiveRecord::Base
     return nil unless access_key_id && secret_access_key && s3_client
     return nil unless can_access_bucket?(bucket)
 
-    "s3://#{access_key_id}:#{secret_access_key}@#{bucket}"
+    "s3://#{CGI.escapeURIComponent(access_key_id)}:#{CGI.escapeURIComponent(secret_access_key)}@#{bucket}"
   end
 
   def can_access_bucket?(bucket)
